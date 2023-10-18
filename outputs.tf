@@ -23,7 +23,10 @@ output "vpn_endpoint_security_groups" {
 
   value = distinct(
     flatten(
-      [for association in aws_ec2_client_vpn_network_association.this : association.security_groups]
+      concat(
+        [aws_security_group.this.id],
+        var.additional_security_groups
+      )
     )
   )
 }
